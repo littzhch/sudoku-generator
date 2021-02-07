@@ -19,8 +19,8 @@ from square_solving import solve_square
 
 
 IMG_PATH = "./image"
-VERSION = "0.1"
-print(__file__)
+VERSION = "0.2"
+
 
 
 class Window:
