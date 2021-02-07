@@ -13,6 +13,45 @@ from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
 import json
 
 
+def _json_format(source_str):
+    """
+    格式化json字符串
+    """
+    state = 0
+    digit_count = 0
+    result = ''
+
+    for char in source_str:
+        if state == 0:
+            result += char
+        elif state == 1:
+            result += char
+            if char == ',':
+                result += "\n\n\n\t\t"
+        elif state == 2:
+            if char.isdigit():
+                result += char
+                digit_count += 1
+            elif char == ',':
+                result += char
+                if not digit_count % 27:
+                    result += "\n\n\t\t "
+                elif not digit_count % 9:
+                    result += "\n\t\t "
+                elif not digit_count % 3:
+                    result += "    "
+            elif char == ']':
+                result += char
+                digit_count = 0
+
+        if char == '[':
+            state += 1
+        elif char == ']':
+            state -= 1
+
+    return result
+
+
 def _set_cell_border(cell, **kwargs):
     """
     This function comes from
@@ -123,15 +162,22 @@ def create_docx(file_name, sdks, answers):
     a_file.save(file_name + "答案.docx")
 
 
-def create_txt(file_name, sdks, answers):
+def create_json(file_name, sdks, answers):
     """
-    创建并保存数独和答案的txt文件
+    创建并保存数独和答案的json文件
     :param file_name: 数独文件名
     :param sdks: 数独的sudoku.SudokuSquare对象列表
     :param answers: 答案的sudoku.SudokuSquare对象列表
     :return: 无
     """
-    with open(file_name + '.txt', "w") as f:
-        for idx in range(len(sdks)):
-            data = [sdks[idx].raw_info, answers[idx].raw_info]
-            f.write(json.dumps(data) + '\n')
+    rst_dict = {
+        "problems" : [],
+        "answers"  : []
+        }
+
+    for idx in range(len(sdks)):
+        rst_dict["problems"].append(sdks[idx].raw_info)
+        rst_dict["answers"].append(answers[idx].raw_info)
+
+    with open(file_name + '.json', "w") as f:
+        f.write(_json_format(json.dumps(rst_dict, indent=4)))

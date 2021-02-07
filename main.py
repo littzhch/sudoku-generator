@@ -13,7 +13,7 @@ import time
 
 from square_filling import generate_filled_square
 from square_removing import remove
-from output import create_docx, create_txt
+from output import create_docx, create_json
 from sudoku import SudokuSquare
 from square_solving import solve_square
 
@@ -101,7 +101,7 @@ class GeneratingWindow(Window):
         b1 = ttk.Button(frm2, text="生成", command=self.generate)
         b2 = ttk.Button(frm2, text="导出docx", command=self.output_docx)
         b3 = ttk.Button(frm2, text="清空", command=self.clean)
-        b4 = ttk.Button(frm2, text="导出txt", command=self.output_txt)
+        b4 = ttk.Button(frm2, text="导出json", command=self.output_json)
         b1.grid(row=0, column=0, padx=30)
         b3.grid(row=0, column=1, padx=30)
         b2.grid(row=1, column=0, padx=30, pady=20)
@@ -144,15 +144,15 @@ class GeneratingWindow(Window):
         time.sleep(.5)
         self.l2.config(text="状态：空闲\n")
 
-    def output_txt(self):
+    def output_json(self):
         self.l2.config(text="状态：询问导出文件名\n")
-        path = str(asksaveasfilename(title=u"导出txt格式文件", filetypes=[("TXT", "txt")]))
+        path = str(asksaveasfilename(title=u"导出json格式文件", filetypes=[("json", "json")]))
         if not path:
             self.l2.config(text="状态：空闲\n")
             return
         self.l2.config(text="状态：保存中...\n")
         self.win.update()
-        create_txt(path, self.sdks, self.ans)
+        create_json(path, self.sdks, self.ans)
         self.l2.config(text="状态：已保存\n")
         self.win.update()
         self.clean()
