@@ -2,7 +2,7 @@
 生成数独和解数独
 
 ## 功能
-- 生成唯一解数独，可导出为docx格式和一种类似于Json的纯文本
+- 生成唯一解数独，可导出为docx格式和json格式
 - 解数独，显示所有的解法（对于多解数独）
 
 ## 注意
@@ -15,4 +15,3 @@
 - 需要python3
 - 需要docx库（pip3 install python-docx)
 - main.py为程序入口
-- 可以用pyinstaller打包（pip3 install pyinstaller)
