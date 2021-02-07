@@ -13,5 +13,6 @@
 
 ## 运行
 - 需要python3
+- 需要tkinter
 - 需要docx库（pip3 install python-docx)
 - main.py为程序入口
