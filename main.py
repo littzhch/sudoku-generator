@@ -29,6 +29,8 @@ class Window:
             self.win = tk.Tk()
         else:
             self.win = tk.Toplevel()
+            self.win.attributes("-toolwindow", 1)
+            self.win.wm_attributes("-topmost", 1)
         self.win.iconbitmap(IMG_PATH + "/icon.ico")
         self.win.geometry(str(width) + 'x' + str(height))
         self.win.title(title)
