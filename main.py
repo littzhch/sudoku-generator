@@ -1,4 +1,4 @@
-# sudoku_generator.py
+# main.py
 # project:sudoku
 # littzhch
 # 20200723
@@ -140,7 +140,6 @@ class GeneratingWindow(Window):
         create_docx(path, self.sdks, self.ans)
         self.l2.config(text="状态：已保存\n")
         self.win.update()
-        self.clean()
         time.sleep(.5)
         self.l2.config(text="状态：空闲\n")
 
@@ -155,7 +154,6 @@ class GeneratingWindow(Window):
         create_json(path, self.sdks, self.ans)
         self.l2.config(text="状态：已保存\n")
         self.win.update()
-        self.clean()
         time.sleep(.5)
         self.l2.config(text="状态：空闲\n")
 
