@@ -155,8 +155,8 @@ def create_docx(file_name, sdks, answers):
                 a_file.add_page_break()
             pagebreak = False
         else:
-            s_file.add_paragraph("\n")
-            a_file.add_paragraph("\n")
+            s_file.add_paragraph("")
+            a_file.add_paragraph("")
             pagebreak = True
     s_file.save(file_name + ".docx")
     a_file.save(file_name + "答案.docx")
