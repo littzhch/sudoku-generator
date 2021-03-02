@@ -20,7 +20,7 @@ from square_solving import solve_square
 
 
 IMG_PATH = "./image"
-VERSION = "0.2"
+VERSION = "0.3"
 
 
 
