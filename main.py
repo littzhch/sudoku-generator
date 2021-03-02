@@ -8,6 +8,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.filedialog import asksaveasfilename
+from tkinter.messagebox import showerror
 from copy import deepcopy
 import time
 
@@ -29,8 +30,6 @@ class Window:
             self.win = tk.Tk()
         else:
             self.win = tk.Toplevel()
-            self.win.attributes("-toolwindow", 1)
-            self.win.wm_attributes("-topmost", 1)
         self.win.iconbitmap(IMG_PATH + "/icon.ico")
         self.win.geometry(str(width) + 'x' + str(height))
         self.win.title(title)
@@ -100,20 +99,33 @@ class GeneratingWindow(Window):
         frm2 = tk.Frame(self.win)
         frm2.pack(pady=20)
 
-        b1 = ttk.Button(frm2, text="生成", command=self.generate)
-        b2 = ttk.Button(frm2, text="导出docx", command=self.output_docx)
-        b3 = ttk.Button(frm2, text="清空", command=self.clean)
-        b4 = ttk.Button(frm2, text="导出json", command=self.output_json)
-        b1.grid(row=0, column=0, padx=30)
-        b3.grid(row=0, column=1, padx=30)
-        b2.grid(row=1, column=0, padx=30, pady=20)
-        b4.grid(row=1, column=1, padx=30, pady=20)
+        self.b1 = ttk.Button(frm2, text="生成", command=self.generate)
+        self.b2 = ttk.Button(frm2, text="导出docx", command=self.output_docx)
+        self.b3 = ttk.Button(frm2, text="清空", command=self.clean)
+        self.b4 = ttk.Button(frm2, text="导出json", command=self.output_json)
+        self.b1.grid(row=0, column=0, padx=30)
+        self.b3.grid(row=0, column=1, padx=30)
+        self.b2.grid(row=1, column=0, padx=30, pady=20)
+        self.b4.grid(row=1, column=1, padx=30, pady=20)
 
     def set_amount(self, amount):
         self.amount = int(amount)
 
     def generate(self):
-        num = int(self.e.get())
+        num = 0
+        try:
+            num = int(self.e.get())
+        except:
+            pass
+        if num <= 0:
+            showerror("错误", "无效的生成数量")
+            self.win.lift()
+            return
+
+        self.b1["state"] = tk.DISABLED
+        self.b2["state"] = tk.DISABLED
+        self.b3["state"] = tk.DISABLED
+        self.b4["state"] = tk.DISABLED
         amount = self.amount
         for i in range(1, num + 1):
             self.l2.config(text="状态：生成中（" + str(i) + '/' + str(num) + ")...\n")
@@ -126,7 +138,14 @@ class GeneratingWindow(Window):
 
             self.generated += 1
             self.l1.config(text="\n已生成数独：" + str(self.generated))
+
+        self.win.lift()
         self.l2.config(text="状态：完成\n")
+        self.b1["state"] = tk.NORMAL
+        self.b2["state"] = tk.NORMAL
+        self.b3["state"] = tk.NORMAL
+        self.b4["state"] = tk.NORMAL
+
         self.win.update()
         time.sleep(.5)
         self.l2.config(text="状态：空闲\n")
@@ -136,7 +155,9 @@ class GeneratingWindow(Window):
         path = str(asksaveasfilename(title=u"导出docx格式文件", filetypes=[("DOCX", "docx")]))
         if not path:
             self.l2.config(text="状态：空闲\n")
+            self.win.lift()
             return
+        self.win.lift()
         self.l2.config(text="状态：保存中...\n")
         self.win.update()
         create_docx(path, self.sdks, self.ans)
@@ -150,7 +171,9 @@ class GeneratingWindow(Window):
         path = str(asksaveasfilename(title=u"导出json格式文件", filetypes=[("json", "json")]))
         if not path:
             self.l2.config(text="状态：空闲\n")
+            self.win.lift()
             return
+        self.win.lift()
         self.l2.config(text="状态：保存中...\n")
         self.win.update()
         create_json(path, self.sdks, self.ans)
@@ -450,6 +473,7 @@ class SolvingWindow(Window):
         sdk = SudokuSquare(num_list)
         rst_list = solve_square(sdk)
 
+        self.win.lift()
         rw = ResultWindow(rst_list)
         rw.show_window()
 
