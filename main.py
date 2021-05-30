@@ -23,7 +23,6 @@ IMG_PATH = "./image"
 VERSION = "0.3"
 
 
-
 class Window:
     def __init__(self, width, height, title, mainwindow=False):
         if mainwindow:
@@ -92,7 +91,7 @@ class GeneratingWindow(Window):
         l3.grid(row=0, column=0)
         self.e.grid(row=0, column=1)
 
-        scale = tk.Scale(self.win, from_=0, to=60, orient=tk.HORIZONTAL, resolution=1, label="设空数量",tickinterval=10,
+        scale = tk.Scale(self.win, from_=0, to=60, orient=tk.HORIZONTAL, resolution=1, label="设空数量", tickinterval=10,
                          command=self.set_amount, length=360, showvalue=1)
         scale.pack()
 
@@ -771,8 +770,8 @@ class ResultWindow(Window):
         self.win.title("解法" + str(self.current_idx + 1) + '/' + str(self.length))
 
         num_idx = 0
-        for l in self.labels:
-            l.config(text=str(rst[num_idx]))
+        for lab in self.labels:
+            lab.config(text=str(rst[num_idx]))
             num_idx += 1
 
         if self.current_idx == 0:
@@ -787,14 +786,15 @@ class ResultWindow(Window):
         self.win.title("解法" + str(self.current_idx + 1) + '/' + str(self.length))
 
         num_idx = 0
-        for l in self.labels:
-            l.config(text=str(rst[num_idx]))
+        for lab in self.labels:
+            lab.config(text=str(rst[num_idx]))
             num_idx += 1
 
         if self.current_idx == 1:
             self.b1.config(state=tk.NORMAL)
         if self.current_idx == self.length - 1:
             self.b2.config(state=tk.DISABLED)
+
 
 a = MainWindow()
 a.show_window()
