@@ -1,4 +1,6 @@
 # sudoku-generator
+该程序有一个更新的C语言版本：[SudokuGenerator](https://github.com/littzhch/SudokuGenerator)
+
 生成数独和解数独
 
 ## 功能
